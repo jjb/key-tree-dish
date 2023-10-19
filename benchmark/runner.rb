@@ -24,10 +24,10 @@ def benchmark_getting(backend, n, testkeys, blob)
   bm.to_a[5]/n
 end
 
-set_csv = CSV.open("/tmp/set_results.csv", "wb")
+set_csv = CSV.open("set_results.csv", "wb")
 set_csv << ['number', 'Key Tree Dish', 'memcache']
 
-get_csv = CSV.open("/tmp/get_results.csv", "wb")
+get_csv = CSV.open("get_results.csv", "wb")
 get_csv << ['number', 'Key Tree Dish', 'memcache']
 
 f = File.open('blob.html')
