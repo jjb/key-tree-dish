@@ -52,6 +52,7 @@ Our main goal is to always keep the index in memory. Will the OS and filesystem 
 
 You can see some benchmark code in the benchmark directory. I'm using redis instead of memcache.
 
-Here's a benchmark from 2015, I think:
+Here's a benchmark from 2023 on my laptop. In this contrived, unscientific, definitely not thorough benchmark, the gets
+are faster than redis!
 
-![](benchmark/2015/sets.png) ![](benchmark/2015/gets.png)
+![](benchmark/setting.png) ![](benchmark/getting.png)
