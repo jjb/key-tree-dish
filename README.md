@@ -50,4 +50,8 @@ Our main goal is to always keep the index in memory. Will the OS and filesystem 
 
 ## benchmarks
 
-Here's a benchmark from 2013
+You can see some benchmark code in the benchmark directory. I'm using redis instead of memcache.
+
+Here's a benchmark from 2015, I think:
+
+![](benchmark/2015/sets.png) ![](benchmark/2015/gets.png)
