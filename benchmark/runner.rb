@@ -1,5 +1,5 @@
 require_relative '../lib/key_tree.rb'
-require 'dalli'
+require 'redis'
 
 require 'benchmark'
 require 'csv'
@@ -41,7 +41,7 @@ the_number = 5000
 (250..the_number).step(250).each do |n|
   puts n
   ktd = KeyTreeDish.new
-  mc = Dalli::Client.new
+  mc = Redis.new
 
   testkeys = []
 
