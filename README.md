@@ -17,7 +17,7 @@ However, it is expensive to keep enough machines with enough RAM available to me
 
 The solution is to generate a static cache of the website and keep it on disk. This works for a single-server environment, or a highly customized environment where many servers are set up to access a NAS or something similar. But neither of those solutions are very [12-factor](http://12factor.net/).
 
-What we would like is a memcache-like system, but with much cheaper storage. Getting this at the cost of performance is acceptable for objects of this size. So, in a nutshell, I want a key-value store that's 1/10 the storage cost of memcache, and it's okay if it's 1/10 the speed as well.
+What we would like is a memcache-like system, but with much cheaper storage. Getting this in exchange for less performance is acceptable for objects of this size. So, in a nutshell, I want a key-value store that's 1/10 the storage cost of memcache, and it's okay if it's 1/10 the speed as well.
 
 Another problem I have with memcache and redis is they are underfeatured for managing higher-level composed objects, because it takes extra application logic to figure out how to expire the object (when any 1 of dozens of sub-objects are changed), and there is no way to expire a group of objects. Put another way:
 
@@ -35,7 +35,7 @@ My first stab at a design:
 2. keep the data on disk
 3. allow trees to be snipped (delete where key matches foo-1-*)
 
-([Sean](https://twitter.com/seancribbs) informed me that [bitcask](http://wiki.basho.com/Bitcask.html) does 1 and 2, but I want 3! Also, bitcask implements a log-style write scheme, which is only useful when dealing with spinning HDDs where data being sequential is necessary for good performance. So assuming SSDs can free us from this complexity.)
+([Sean](https://twitter.com/seancribbs) informed me that [bitcask](https://github.com/basho/bitcask) does 1 and 2, but I want 3! Also, bitcask implements a log-style write scheme, which is only useful when dealing with spinning HDDs where data being sequential is necessary for good performance. So assuming SSDs can free us from this complexity.)
 
 
 My first thought is that perhaps the OS and filesystem will implement most of what I'm looking for. Blobs can be stored in a directory structure, e.g.  `/foo/1/bar/2.blob` which correlates with `foo-1-bar-2`. Getting a blob will be a simple act of checking if a file is present in that path. Invalidating a blob will be done by deleting the file, invalidating a namespace prefix will be done by deleting (or moving) a directory. OSes and filesystems go to great lengths to cache files in memory, and these days it's quite smart and reliable, so much that ([Postgres actually relies on it for much of its own caching](https://devcenter.heroku.com/articles/understanding-postgres-data-caching#how-does-postgresql-cache-data)).
