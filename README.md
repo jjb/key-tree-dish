@@ -1,4 +1,4 @@
-Here's an experiment I made around 2013-15 and recently was reminded of during a discussion about
+Here's an experiment I made around 2012-15 and recently was reminded of during a discussion about
 37 signal's new cache store, https://github.com/rails/solid_cache. I had this code sitting on my computer and never pushed it up to github, and the below is a blog post I wrote around that time and never published.
 
 ----
@@ -28,8 +28,8 @@ I would like the ability to expire a tree of entries using the leading namespace
 To implement this system easily, we can probably assume that the disk is SSD. And maybe that's why this particular type of caching system isn't around yet, because SSD is what allows for this price/performance/storage-size balance.
 
 Looking at [digital ocean pricing](https://www.digitalocean.com/pricing/):
-* in 2013, an $80/month server got you 8GB of RAM and 80GB of SSD, which pretty cleanly validated my 1/10 price idea
-* in 2023, a $96/month server will get you 16GB of RAM and 320 GB of SSD, which is cleanly 1/20 the price!
+* in ~2012-15, an $80/month server got you 8GB of RAM and 80GB of SSD, which pretty cleanly validated my 1/10 price idea
+* in 2023, a $96/month server will get you 16GB of RAM and 320 GB of SSD, which is 1/20 the price!
 
 But what about the performance? Will it be 1/10, or worse?
 
@@ -47,3 +47,7 @@ My first thought is that perhaps the OS and filesystem will implement most of wh
 However, a problem with this approach is that the OS and filesystem aren't optimizing for the same thing we are. Namely, we are optimizing for consistent access times to all objects. The OS will be optimizing for the fastest possible access time to what it is guessing will be the most popular objects.
 
 Our main goal is to always keep the index in memory. Will the OS and filesystem keep the index of the filesystem in memory at all times? I don't know.
+
+## benchmarks
+
+Here's a benchmark from 2013
