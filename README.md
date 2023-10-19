@@ -27,15 +27,19 @@ I would like the ability to expire a tree of entries using the leading namespace
 
 To implement this system easily, we can probably assume that the disk is SSD. And maybe that's why this particular type of caching system isn't around yet, because SSD is what allows for this price/performance/storage-size balance.
 
-Right now an [$80/month server will get you 8GB of RAM and 80GB of SSD](https://www.digitalocean.com/pricing/). So this pretty cleanly validates my 1/10 price idea. But what about the performance? Will it be 1/10, or worse?
+Looking at [digital ocean pricing](https://www.digitalocean.com/pricing/):
+* in 2013, an $80/month server got you 8GB of RAM and 80GB of SSD, which pretty cleanly validated my 1/10 price idea
+* in 2023, a $96/month server will get you 16GB of RAM and 320 GB of SSD, which is cleanly 1/20 the price!
+
+But what about the performance? Will it be 1/10, or worse?
 
 My first stab at a design:
 
 1. keep the index in memory
 2. keep the data on disk
-3. allow trees to be snipped (delete where key matches foo-1-*)
+3. allow trees to be snipped (delete where key matches `foo-1-*`)
 
-([Sean](https://twitter.com/seancribbs) informed me that [bitcask](https://github.com/basho/bitcask) does 1 and 2, but I want 3! Also, bitcask implements a log-style write scheme, which is only useful when dealing with spinning HDDs where data being sequential is necessary for good performance. So assuming SSDs can free us from this complexity.)
+([Sean](https://www.linkedin.com/in/seancribbs/) informed me that [bitcask](https://github.com/basho/bitcask) does 1 and 2, but I want 3! Also, bitcask implements a log-style write scheme, which is only useful when dealing with spinning HDDs where data being sequential is necessary for good performance. So assuming SSDs can free us from this complexity.)
 
 
 My first thought is that perhaps the OS and filesystem will implement most of what I'm looking for. Blobs can be stored in a directory structure, e.g.  `/foo/1/bar/2.blob` which correlates with `foo-1-bar-2`. Getting a blob will be a simple act of checking if a file is present in that path. Invalidating a blob will be done by deleting the file, invalidating a namespace prefix will be done by deleting (or moving) a directory. OSes and filesystems go to great lengths to cache files in memory, and these days it's quite smart and reliable, so much that ([Postgres actually relies on it for much of its own caching](https://devcenter.heroku.com/articles/understanding-postgres-data-caching#how-does-postgresql-cache-data)).
