@@ -44,9 +44,6 @@ My first stab at a design:
 
 My first thought is that perhaps the OS and filesystem will implement most of what I'm looking for. Blobs can be stored in a directory structure, e.g.  `/foo/1/bar/2.blob` which correlates with `foo-1-bar-2`. Getting a blob will be a simple act of checking if a file is present in that path. Invalidating a blob will be done by deleting the file, invalidating a namespace prefix will be done by deleting (or moving) a directory. OSes and filesystems go to great lengths to cache files in memory, and these days it's quite smart and reliable, so much that ([Postgres actually relies on it for much of its own caching](https://devcenter.heroku.com/articles/understanding-postgres-data-caching#how-does-postgresql-cache-data)).
 
-However, a problem with this approach is that the OS and filesystem aren't optimizing for the same thing we are. Namely, we are optimizing for consistent access times to all objects. The OS will be optimizing for the fastest possible access time to what it is guessing will be the most popular objects.
-
-Our main goal is to always keep the index in memory. Will the OS and filesystem keep the index of the filesystem in memory at all times? I don't know.
 
 ## benchmarks
 
