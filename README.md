@@ -21,7 +21,7 @@ What we would like is a memcache-like system, but with much cheaper storage. Get
 
 Another problem I have with memcache and redis is they are underfeatured for managing higher-level composed objects, because it takes extra application logic to figure out how to expire the object (when any 1 of dozens of sub-objects are changed), and there is no way to expire a group of objects. Put another way:
 
-[![](tweet.png)]
+![](tweet.png)
 
 I would like the ability to expire a tree of entries using the leading namespace of the key. e.g.: expire all entries with keys that begin with "post-123-comments-". I realize that this feature is a bit orthogonal to the size/speed tradeoff goals described above, but I don't think it is incompatible with it. I am still exploring if it is in some way a natural fit, or if it's merely a nifty feature that I've always wanted in a caching system and I decided to throw in. :-D
 
