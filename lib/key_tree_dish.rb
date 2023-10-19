@@ -1,5 +1,5 @@
 require 'sqlite3'
-require_relative 'file_system_dish.rb'
+require_relative 'dish.rb'
 
 class KeyTreeDish
   def initialize
