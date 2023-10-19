@@ -41,7 +41,7 @@ the_number = 5000
 (250..the_number).step(250).each do |n|
   puts n
   ktd = KeyTreeDish.new
-  mc = Redis.new
+  r = Redis.new
 
   testkeys = []
 
@@ -49,16 +49,16 @@ the_number = 5000
   ktd_set_rate = benchmark_setting(ktd, n, testkeys, blob)
 
   GC.start
-  mc_set_rate = benchmark_setting(mc, n, testkeys, blob)
+  r_set_rate = benchmark_setting(r, n, testkeys, blob)
 
   GC.start
   ktd_get_rate = benchmark_getting(ktd, n, testkeys, blob)
 
   GC.start
-  mc_get_rate = benchmark_getting(mc, n, testkeys, blob)
+  r_get_rate = benchmark_getting(r, n, testkeys, blob)
 
-  set_csv << [n, ktd_set_rate, mc_set_rate]
-  get_csv << [n, ktd_get_rate, mc_get_rate]
+  set_csv << [n, ktd_set_rate, r_set_rate]
+  get_csv << [n, ktd_get_rate, r_get_rate]
 end
 set_csv.close
 get_csv.close
