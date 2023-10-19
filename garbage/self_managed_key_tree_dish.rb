@@ -1,7 +1,7 @@
 require 'sqlite3'
 require_relative 'dish.rb'
 
-class KeyTreeDish
+class SelfManagedKeyTreeDish
   # attr_accessor :dish
   def initialize
     @dish = Dish.new

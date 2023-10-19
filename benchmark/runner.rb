@@ -1,4 +1,4 @@
-require_relative '../lib/key_tree.rb'
+require_relative '../lib/key_tree_dish.rb'
 require 'redis'
 
 require 'benchmark'
@@ -9,7 +9,7 @@ def benchmark_setting(backend, number_of_items_in_cache, testkeys, blob)
     number_of_items_in_cache.times{
       i = rand(number_of_items_in_cache)
       testkeys << i.to_s
-      backend.set(i.to_s, blob)
+      backend.set(i.to_s, (blob*rand(1..10))+rand.to_s)
     }
   }
   bm.to_a[5]/number_of_items_in_cache

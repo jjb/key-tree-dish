@@ -1,20 +1,22 @@
+require 'tmpdir'
+
 class Dish
 
   def initialize
-    @the_file = File.new("/tmp/#{rand}", 'w+')
-    # name = Time.now.to_i
-    # @the_file = File.new("/Volumes/memorydisk/dish.txt", 'w+')
+    @the_dir = Dir.mktmpdir
   end
 
-  def set(body, position)
-    @the_file.seek(position, IO::SEEK_SET)
+  def set(key, body)
+    @the_file = File.new("#{@the_dir}/#{key}", 'w+')
     @the_file.write(body)
-    @the_file.flush
+    @the_file.close
   end
 
-  def get(position, length)
-    @the_file.seek(position, IO::SEEK_SET)
-    @the_file.read(length)
+  def get(key)
+    @the_file = File.open("#{@the_dir}/#{key}", 'r')
+    b = @the_file.read
+    @the_file.close
+    b
   end
 
 end
